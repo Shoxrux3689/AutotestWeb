@@ -1,0 +1,26 @@
+﻿@model CreateUser
+
+<h1>Sign Up</h1>
+
+<form class="row g-3" style="width: 400px" asp-controller="Users" asp-action="SignUp" method="post" enctype="multipart/form-data">
+    <div>
+        <input name="Photo" class="form-control" type="file" placeholder="Photo" />
+        <span asp-validation-for="Photo"></span>
+    </div>
+    <div>
+        <input name="Name" class="form-control" asp-for="Name" type="text" placeholder="Name"/>
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div>
+        <input name="Username" class="form-control" asp-for="Username" type="text" placeholder="Username" />
+        <span asp-validation-for="Username"></span>
+    </div>
+    <div>
+        <input name="Password" class="form-control" asp-for="Password" type="text" placeholder="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <button class="form-control"  type="submit">Sign Up</button>
+    <a class="link-info" asp-controller="Users" asp-action="SignIn">Sign In</a>
+
+</form>
+

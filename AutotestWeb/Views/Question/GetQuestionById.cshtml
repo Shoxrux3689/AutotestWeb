@@ -1,0 +1,63 @@
+﻿@{
+    if (ViewBag.isSuccess)
+    {
+        QuestionModel question = ViewBag.Question;
+
+        if (question.Media.Exist)
+        {
+            var imgLink = $"/Autotest/{question.Media.Name}.png";
+
+            <img src="@imgLink" />
+        }
+
+        <h1>@question.Id. @question.Question</h1>
+
+        for (int i = 0; i < (int)question.Choices.Count; i++)
+        {
+            if (ViewBag.IsAnswer == false)
+            {
+                <a asp-controller="Question" asp-action="GetQuestionById" asp-route-Id="@question.Id" asp-route-choiceId="@i">
+                    <h3>@(i + 1) @question.Choices[i].Text </h3>
+                </a>
+            }
+            else
+            {
+                var bg = "";
+
+                if (question.Choices[i].Answer)
+                {
+                    bg = "background-color: green";
+                }
+
+                if (i == ViewBag.ChoiceId)
+                {
+                    if (ViewBag.Answer == false)
+                    {
+                        bg = "background-color: red";
+                    }
+                }
+
+                <h3 style="@bg">@(i + 1) @question.Choices[i].Text </h3>
+
+            }
+
+            <br />
+        }
+
+        if (ViewBag.IsAnswer)
+        {
+            <p style="color: orangered">@question.Description</p>
+            <a asp-asp-controller="Question" asp-action="GetQuestionById" asp-route-id="@(question.Id + 1)"> <h2>Next</h2> </a>
+        }
+    }
+    else
+    {
+        <h1>Not found</h1>
+        <h1>Id: @ViewBag.QuestionId</h1>
+    }
+}
+
+
+
+
+
