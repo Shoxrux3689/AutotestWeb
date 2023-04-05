@@ -14,6 +14,7 @@ namespace AutotestWeb.Models
 
         public List<List<long>> CorrectAnswers { get; set; }
         public string Language = "lotin";
+        public DateTime Date { get; set; }
 
         public User() 
         {

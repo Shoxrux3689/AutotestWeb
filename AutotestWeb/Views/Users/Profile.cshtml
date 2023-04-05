@@ -10,6 +10,16 @@
 <a class="btn btn-primary" asp-action="ProfileEdit" asp-route-user="@Model">Edit</a>
 <a class="btn btn-primary" asp-action="LogOut">Log Out</a>
 
+<h1>My Stats</h1>
+<h3>All Correct Answers: @Model.Results.CorrectCount</h3>
+<h3>InCorrect Answers: @Model.Results.InCorrectCount</h3>
+<h3>Questions Count: @Model.Results.QuestionCount</h3>
+@{
+    double? a = 0.1d;
+    a = Convert.ToDouble(Model.Results.InCorrectCount) / Convert.ToDouble(Model.Results.CorrectCount);
+}
+<h3>Togri javob aniqlash: @(a+1) ta urinishda 1ta togri javob</h3>
+
 <h1>Ticket Results</h1>
 
 @*

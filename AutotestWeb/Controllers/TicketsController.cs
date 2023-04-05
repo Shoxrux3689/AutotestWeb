@@ -61,7 +61,7 @@ namespace AutotestWeb.Controllers
                 return RedirectToAction("Index", "Tickets");
             }
 
-            var question = ticket?.FirstOrDefault(x => x.Id == id);
+            var question = ticket?.Ticket.FirstOrDefault(x => x.Id == id);
             if (question == null)
             {
                 ViewBag.QuestionId = id;
@@ -80,13 +80,19 @@ namespace AutotestWeb.Controllers
 
                     ViewBag.Answer = answer;
                     ViewBag.ChoiceId = choiceId;
+                    user.Date = DateTime.Now;
 
                     if (answer)
                     {
                         if (user.CorrectAnswers[ticketIndex].Contains(question.Id))
                         {
                             user.CorrectAnswers[ticketIndex].Remove(question.Id);
+                            user.Results.CorrectCount++;
                         }
+                    }
+                    else
+                    {
+                        user.Results.InCorrectCount++;
                     }
                 }
             }

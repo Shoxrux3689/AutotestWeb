@@ -30,6 +30,7 @@ public class UsersController : Controller
             Username = createUser.Username,
             Password = createUser.Password,
             PhotoPath = SavePhoto(createUser.Photo!),
+            Results = new Result(),
             CorrectAnswers = Lists(),
         };
 
@@ -49,9 +50,9 @@ public class UsersController : Controller
         {
             var lists = new List<long>();
 
-            for (int j = 0; j < tickets[i].Count; j++)
+            for (int j = 0; j < tickets[i].Ticket.Count; j++)
             {
-                lists.Add(tickets[i][j].Id);
+                lists.Add(tickets[i].Ticket[j].Id);
             }
             list.Add(lists);
         }
