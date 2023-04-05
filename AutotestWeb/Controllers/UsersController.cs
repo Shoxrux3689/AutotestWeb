@@ -31,6 +31,7 @@ public class UsersController : Controller
             Password = createUser.Password,
             PhotoPath = SavePhoto(createUser.Photo!),
             Results = new Result(),
+            CurrentTicketIndex = 0,
             TicketResults = Lists(),
         };
 

@@ -13,6 +13,7 @@ namespace AutotestWeb.Models
         public Result Results { get; set; }
 
         public List<TicketResult> TicketResults { get; set; }
+        public int CurrentTicketIndex { get; set; }
         public string Language = "lotin";
         
         public User() 

@@ -73,6 +73,7 @@ namespace AutotestWeb.Controllers
                 ViewBag.isSuccess = true;
 
                 ViewBag.IsAnswer = choiceId != null;
+                user.CurrentTicketIndex = ticketIndex;
 
                 if (choiceId != null)
                 {
@@ -97,7 +98,7 @@ namespace AutotestWeb.Controllers
                 }
             }
 
-            return View();
+            return View(user);
         }
 
         //getquestionbyindex funksiyani yozishim kere

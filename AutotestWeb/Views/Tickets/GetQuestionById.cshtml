@@ -1,4 +1,5 @@
-﻿@{
+﻿@model User 
+@{
     if (ViewBag.isSuccess)
     {
         QuestionModel question = ViewBag.Question;
@@ -14,7 +15,7 @@
 
         for (int i = 0; i < (int)question.Choices.Count; i++)
         {
-            if (ViewBag.IsAnswer == false)
+            if (Model.TicketResults[Model.CurrentTicketIndex].CorrectAnswers.Contains(question.Id))
             {
                 <a asp-controller="Tickets" asp-action="GetQuestionById" asp-route-Id="@question.Id" asp-route-choiceId="@i">
                     <h3>@(i + 1) @question.Choices[i].Text </h3>
@@ -42,6 +43,11 @@
             <br />
         }
 
+        if (ViewBag.Answer == false)
+        {
+            <h4 style="color: red">Javobingiz notogri qaytadan urinib koring!</h4>
+        }
+
         if (ViewBag.IsAnswer)
         {
             <p style="color: orangered">@question.Description</p>
@@ -50,6 +56,15 @@
         for (int i = 0; i < 10; i++)
         {
             var tagClass = "btn btn-light";
+            if (Model.TicketResults[Model.CurrentTicketIndex].CorrectAnswers.Contains((Model.CurrentTicketIndex * 10 + 1) + i))
+            {
+                tagClass = "btn btn-primary";
+            }
+
+            if (Model.CurrentTicketIndex * 10 + 1 + i == question.Id)
+            {
+                tagClass = "btn btn-secondary";
+            }
             <a class="@tagClass" asp-action="GetQuestionById" asp-route-id="@((question.Id - 1) / 10 * 10 + i + 1)">@(i + 1)</a>
         }
     }
