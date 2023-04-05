@@ -33,6 +33,7 @@ public class UsersController : Controller
             CorrectAnswers = Lists(),
         };
 
+
         UsersService.Users.Add(user);
 
         HttpContext.Response.Cookies.Append("UserId", user.Id);
