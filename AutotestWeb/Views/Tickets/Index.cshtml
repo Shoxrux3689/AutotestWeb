@@ -6,7 +6,7 @@
     for (int i = 0; i < (int)ViewBag.Tickets; i++)
     {
         <ul>
-            <li> <a asp-controller="Question" asp-action="GetQuestionById"
+            <li> <a asp-controller="Tickets" asp-action="GetQuestionById"
                 asp-route-id="@(i * 10 + 1)" asp-route-ticketIndex="@i" >Ticket: @(i + 1), @(10 - Model.CorrectAnswers[i].Count) / 10</a>
             </li> 
         </ul>

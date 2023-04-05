@@ -42,15 +42,15 @@ public class UsersController : Controller
 
     public List<List<long>> Lists()
     {
-        var questions = QuestionsService.ReadQuestion("lotin");
+        var tickets = TicketsService.FormaTickets("lotin");
         var list = new List<List<long>>();
-        for (int i = 0; i < questions.Count / 10; i++)
+        for (int i = 0; i < tickets.Count; i++)
         {
             var lists = new List<long>();
 
-            for (int j = i * 10; j < i * 10 + 10; j++)
+            for (int j = 0; j < tickets[i].Count; j++)
             {
-                lists.Add(questions[j].Id);
+                lists.Add(tickets[i][j].Id);
             }
             list.Add(lists);
         }
