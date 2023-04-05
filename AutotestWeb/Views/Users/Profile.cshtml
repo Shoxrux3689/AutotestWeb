@@ -9,16 +9,17 @@
 
 <a class="btn btn-primary" asp-action="ProfileEdit" asp-route-user="@Model">Edit</a>
 <a class="btn btn-primary" asp-action="LogOut">Log Out</a>
+<a class="btn btn-success" asp-action="ClearStats">Clear Stats</a>
 
 <h1>My Stats</h1>
 <h3>Total Correct Answers: @Model.Results.CorrectCount / @Model.Results.QuestionCount</h3>
-<h3>Total Correct Tickets: @Model.Results.CorrectCount / @ViewBag.Tickets.Count</h3>
+<h3>Total Correct Tickets: @Model.TicketResults.Where(t => t.CorrectAnswers.Count < 1).Count() / @ViewBag.Tickets.Count</h3>
 <h3>InCorrect Answers: @Model.Results.InCorrectCount</h3>
 @{
     var ticket = Model.TicketResults.MaxBy(t => t.Date);
 
 }
-<h3>Last Try Ticket: @ticket.TicketIndex   @ticket.Date</h3>
+<h3>Oxirgi ishlangan tiket: @ticket.TicketIndex   @ticket.Date</h3>
 
 
 @{

@@ -145,7 +145,21 @@ public class UsersController : Controller
         return RedirectToAction("Profile");
     }
 
+    public IActionResult ClearStats()
+    {
+        if (!UsersService.IsLoggedIn(HttpContext))
+        {
+            return RedirectToAction("SignIn");
+        }
+        var user = UsersService.GetCurrentUser(HttpContext);
 
+        user.TicketResults.Clear();
+        user.Results = new Result();
+
+        user.TicketResults = Lists();
+
+        return View();
+    }
     public IActionResult LogOut()
     {
         HttpContext.Response.Cookies.Delete("UserId");
