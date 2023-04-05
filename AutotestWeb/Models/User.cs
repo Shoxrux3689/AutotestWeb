@@ -12,13 +12,12 @@ namespace AutotestWeb.Models
         public string? PhotoPath { get; set; }
         public Result Results { get; set; }
 
-        public List<List<long>> CorrectAnswers { get; set; }
+        public List<TicketResult> TicketResults { get; set; }
         public string Language = "lotin";
-        public DateTime Date { get; set; }
-
+        
         public User() 
         {
-            CorrectAnswers = new List<List<long>>();
+            TicketResults = new List<TicketResult>();
         }
     }
 }

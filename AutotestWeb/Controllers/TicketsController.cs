@@ -32,7 +32,7 @@ namespace AutotestWeb.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var tickets = QuestionsLotin.Count / 10;
+            var tickets = TicketsService.FormaTickets(language);
             ViewBag.Tickets = tickets;
             var id = HttpContext.Request.Cookies["UserId"];
             var user = UsersService.Users.FirstOrDefault(u => u.Id == id);
@@ -80,13 +80,13 @@ namespace AutotestWeb.Controllers
 
                     ViewBag.Answer = answer;
                     ViewBag.ChoiceId = choiceId;
-                    user.Date = DateTime.Now;
-
+                    user.TicketResults[ticketIndex].Date = DateTime.Now;
+                    
                     if (answer)
                     {
-                        if (user.CorrectAnswers[ticketIndex].Contains(question.Id))
+                        if (user.TicketResults[ticketIndex].CorrectAnswers.Contains(question.Id))
                         {
-                            user.CorrectAnswers[ticketIndex].Remove(question.Id);
+                            user.TicketResults[ticketIndex].CorrectAnswers.Remove(question.Id);
                             user.Results.CorrectCount++;
                         }
                     }

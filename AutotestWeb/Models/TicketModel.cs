@@ -3,7 +3,6 @@
     public class TicketModel
     {
         public List<QuestionModel>? Ticket { get; set; }
-        public DateTime? Date { get; set; }
 
         public TicketModel()
         {

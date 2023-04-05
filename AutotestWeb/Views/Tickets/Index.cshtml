@@ -3,11 +3,11 @@
 <h1>Tickets</h1>
 
 @{
-    for (int i = 0; i < (int)ViewBag.Tickets; i++)
+    for (int i = 0; i < (int)ViewBag.Tickets.Count; i++)
     {
         <ul>
             <li> <a asp-controller="Tickets" asp-action="GetQuestionById"
-                asp-route-id="@(i * 10 + 1)" asp-route-ticketIndex="@i" >Ticket: @(i + 1), @(10 - Model.CorrectAnswers[i].Count) / 10</a>
+                asp-route-id="@(i * 10 + 1)" asp-route-ticketIndex="@i" >Ticket: @(i + 1), @(10 - Model.TicketResults[i].CorrectAnswers!.Count) / 10   @Model.TicketResults[i].Date</a>
             </li> 
         </ul>
     }

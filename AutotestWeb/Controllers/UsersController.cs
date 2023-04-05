@@ -31,7 +31,7 @@ public class UsersController : Controller
             Password = createUser.Password,
             PhotoPath = SavePhoto(createUser.Photo!),
             Results = new Result(),
-            CorrectAnswers = Lists(),
+            TicketResults = Lists(),
         };
 
 
@@ -42,17 +42,17 @@ public class UsersController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    public List<List<long>> Lists()
+    public List<TicketResult> Lists()
     {
         var tickets = TicketsService.FormaTickets("lotin");
-        var list = new List<List<long>>();
+        var list = new List<TicketResult>();
         for (int i = 0; i < tickets.Count; i++)
         {
-            var lists = new List<long>();
+            var lists = new TicketResult();
 
             for (int j = 0; j < tickets[i].Ticket.Count; j++)
             {
-                lists.Add(tickets[i].Ticket[j].Id);
+                lists.CorrectAnswers.Add(tickets[i].Ticket[j].Id);
             }
             list.Add(lists);
         }
