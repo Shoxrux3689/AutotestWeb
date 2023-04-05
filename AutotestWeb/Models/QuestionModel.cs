@@ -1,6 +1,6 @@
 ﻿namespace AutotestWeb.Models;
 
-class QuestionModel
+public class QuestionModel
 {
     public long Id;
     public string Question;

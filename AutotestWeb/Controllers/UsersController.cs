@@ -29,8 +29,7 @@ public class UsersController : Controller
             Name = createUser.Name,
             Username = createUser.Username,
             Password = createUser.Password,
-            Results = new List<Result>(),
-            PhotoPath = SavePhoto(createUser.Photo),
+            PhotoPath = SavePhoto(createUser.Photo!),
             CorrectAnswers = Lists(),
         };
 
@@ -43,10 +42,17 @@ public class UsersController : Controller
 
     public List<List<long>> Lists()
     {
+        var questions = QuestionsService.ReadQuestion("lotin");
         var list = new List<List<long>>();
-        for (int i = 0; i < 700; i++)
+        for (int i = 0; i < questions.Count / 10; i++)
         {
-            list.Add(new List<long>());
+            var lists = new List<long>();
+
+            for (int j = i * 10; j < i * 10 + 10; j++)
+            {
+                lists.Add(questions[j].Id);
+            }
+            list.Add(lists);
         }
 
         return list;
@@ -81,7 +87,6 @@ public class UsersController : Controller
         }
 
         var user = UsersService.Users.FirstOrDefault(u => u.Username == signInUser.Username && u.Password == signInUser.Password);
-
 
         if (user == null)
         {

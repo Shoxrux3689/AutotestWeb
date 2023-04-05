@@ -38,9 +38,7 @@
                 }
 
                 <h3 style="@bg">@(i + 1) @question.Choices[i].Text </h3>
-
             }
-
             <br />
         }
 
@@ -48,6 +46,16 @@
         {
             <p style="color: orangered">@question.Description</p>
             <a asp-asp-controller="Question" asp-action="GetQuestionById" asp-route-id="@(question.Id + 1)"> <h2>Next</h2> </a>
+        }
+        else if (question.Id != question.Id / 10 * 10)
+        {
+            
+        }
+
+        for (int i = 0; i < 10; i++)
+        {
+            var tagClass = "btn btn-light";
+            <a class="@tagClass" asp-action="GetQuestionById" asp-route-id="@((question.Id - 1) / 10 * 10 + i + 1)">@(i + 1)</a>
         }
     }
     else

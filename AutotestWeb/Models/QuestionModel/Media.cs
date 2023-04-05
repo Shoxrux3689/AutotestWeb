@@ -1,6 +1,6 @@
 ﻿namespace AutotestWeb.Models;
 
-class Media
+public class Media
 {
     public bool Exist;
     public string Name;

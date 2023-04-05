@@ -10,11 +10,14 @@ namespace AutotestWeb.Models
         public string Username { get; set; }
         public string Password { get; set; }
         public string? PhotoPath { get; set; }
-        public List<Result> Results { get; set; }
+        public Result Results { get; set; }
 
-        public List<List<long>>? CorrectAnswers { get; set; }
+        public List<List<long>> CorrectAnswers { get; set; }
         public string Language = "lotin";
 
-        
+        public User() 
+        {
+            CorrectAnswers = new List<List<long>>();
+        }
     }
 }

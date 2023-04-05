@@ -7,7 +7,7 @@
     {
         <ul>
             <li> <a asp-controller="Question" asp-action="GetQuestionById"
-                asp-route-id="@(i * 10 + 1)" asp-route-ticketIndex="@i" >Tickets @(i + 1) @Model.CorrectAnswers[i].Count / 10</a>
+                asp-route-id="@(i * 10 + 1)" asp-route-ticketIndex="@i" >Ticket: @(i + 1), @(10 - Model.CorrectAnswers[i].Count) / 10</a>
             </li> 
         </ul>
     }
