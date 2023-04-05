@@ -11,9 +11,16 @@
 <a class="btn btn-primary" asp-action="LogOut">Log Out</a>
 
 <h1>My Stats</h1>
-<h3>All Correct Answers: @Model.Results.CorrectCount</h3>
+<h3>Total Correct Answers: @Model.Results.CorrectCount / @Model.Results.QuestionCount</h3>
+<h3>Total Correct Tickets: @Model.Results.CorrectCount / @ViewBag.Tickets.Count</h3>
 <h3>InCorrect Answers: @Model.Results.InCorrectCount</h3>
-<h3>Questions Count: @Model.Results.QuestionCount</h3>
+@{
+    var ticket = Model.TicketResults.MaxBy(t => t.Date);
+
+}
+<h3>Last Try Ticket: @ticket.TicketIndex   @ticket.Date</h3>
+
+
 @{
     double? a = 0.1d;
     a = Convert.ToDouble(Model.Results.InCorrectCount) / Convert.ToDouble(Model.Results.CorrectCount);

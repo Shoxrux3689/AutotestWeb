@@ -55,6 +55,7 @@ public class UsersController : Controller
             {
                 lists.CorrectAnswers.Add(tickets[i].Ticket[j].Id);
             }
+            lists.TicketIndex = i;
             list.Add(lists);
         }
 
@@ -109,6 +110,8 @@ public class UsersController : Controller
         {
             return RedirectToAction("SignIn");
         }
+
+        ViewBag.Tickets = TicketsService.FormaTickets("lotin");
 
         return View(user);
     }

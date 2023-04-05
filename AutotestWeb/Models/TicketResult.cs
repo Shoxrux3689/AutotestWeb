@@ -2,6 +2,7 @@
 {
     public class TicketResult
     {
+        public int TicketIndex { get; set; }
         public List<long>? CorrectAnswers { get; set; }
         public DateTime? Date { get; set; }
         public long StartIndex { get; set; }
