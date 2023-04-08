@@ -8,14 +8,6 @@ namespace AutotestWeb.Controllers
     public class TicketsController : Controller
     {
 
-        private readonly List<QuestionModel> QuestionsLotin;
-
-        public TicketsController() 
-        {
-            var json = System.IO.File.ReadAllText("JsonData/uzlotin.json");
-            QuestionsLotin = JsonConvert.DeserializeObject<List<QuestionModel>>(json);
-        }
-
         public IActionResult ChooseLanguage()
         {
             if (!UsersService.IsLoggedIn(HttpContext))
@@ -25,7 +17,7 @@ namespace AutotestWeb.Controllers
             return View();
         }
 
-        public IActionResult Index(string language)
+        public IActionResult Index(string language, int page = 1)
         {
             if (!UsersService.IsLoggedIn(HttpContext))
             {
@@ -41,6 +33,13 @@ namespace AutotestWeb.Controllers
             {
                 user.Language = language;
             }
+
+            if (page > 7 || page < 1)
+            {
+                page = 7;
+            }
+            ViewBag.Page = page;
+            ViewBag.Language = language;
 
             return View(user);
         }
