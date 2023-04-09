@@ -14,4 +14,8 @@
     <Folder Include="wwwroot\UserImages\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Autotest.Data\Autotest.Data.csproj" />
+  </ItemGroup>
+
 </Project>
