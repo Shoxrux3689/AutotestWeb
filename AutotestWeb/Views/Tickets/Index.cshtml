@@ -2,24 +2,20 @@
 
 <h1>Tickets</h1>
 
-
-    <div>
-    @{
-        for (int i = (ViewBag.Page - 1) * 10; i < ViewBag.Page * 10; i++)
-        {
-            <form asp-action="GetQuestionById" asp-route-id="@(i * 10 + 1)" asp-route-ticketIndex="@i">
-                <div class="card">
-                    <img src="/TicketImage/Ticket.png" style="width:100%">
-                    <h1>Ticket: @(i+1)</h1>
-                    <h3>@(10 - Model.TicketResults[i].CorrectAnswers!.Count) / 10</h3>
-                    <h4 class="title">@Model.TicketResults[i].Date</h4>
-                    <button type="submit">Start</button>
-                </div>
-            </form>
-        }
+@{
+    for (int i = (ViewBag.Page - 1) * 10; i < ViewBag.Page * 10; i++)
+    {
+        <form asp-action="GetQuestionById" asp-route-id="@(i * 10 + 1)" asp-route-ticketIndex="@i">
+            <div class="card">
+                <img src="/TicketImage/Ticket.png" style="width:100%">
+                <h1>Ticket: @(i+1)</h1>
+                <h3>@(10 - Model.TicketResults[i].CorrectAnswers!.Count) / 10</h3>
+                <h4 class="title">@Model.TicketResults[i].Date</h4>
+                <button type="submit">Start</button>
+            </div>
+        </form>
     }
-    </div>
- 
+}
 
 <div class="center">
     <div class="pagination">
