@@ -8,7 +8,7 @@ public class CorrectAnswerRepository
 {
     private readonly SqliteConnection _connection;
 
-    CorrectAnswerRepository()
+    public CorrectAnswerRepository()
     {
         _connection = new SqliteConnection("Data source = autotest.db");
 

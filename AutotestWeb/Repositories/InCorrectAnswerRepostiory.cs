@@ -7,7 +7,7 @@ public class InCorrectAnswerRepository
 {
     private readonly SqliteConnection _connection;
 
-    InCorrectAnswerRepository()
+    public InCorrectAnswerRepository()
     {
         _connection = new SqliteConnection("Data source = autotest.db");
 

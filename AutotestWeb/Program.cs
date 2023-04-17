@@ -8,9 +8,11 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<UserRepository>();
 builder.Services.AddTransient<TicketRepository>();
+builder.Services.AddTransient<CorrectAnswerRepository>();
+builder.Services.AddTransient<InCorrectAnswerRepository>();
 builder.Services.AddTransient<UsersService>();
 builder.Services.AddTransient<TicketsService>();
-builder.Services.AddTransient<QuestionsService>();
+builder.Services.AddSingleton<QuestionsService>();
 
 var app = builder.Build();
 

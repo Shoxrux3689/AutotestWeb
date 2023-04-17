@@ -7,7 +7,7 @@ public class UserRepository
 {
     private readonly SqliteConnection _connection;
     
-    UserRepository()
+    public UserRepository()
     {
         _connection = new SqliteConnection("Data source = autotest.db");
         

@@ -9,7 +9,7 @@ public class TicketRepository
 {
     private readonly SqliteConnection _connection;
 
-    TicketRepository()
+    public TicketRepository()
     {
         _connection = new SqliteConnection("Data source = autotest.db");
 
