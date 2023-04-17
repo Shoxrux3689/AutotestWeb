@@ -13,6 +13,8 @@ public class CorrectAnswerRepository
         _connection = new SqliteConnection("Data source = autotest.db");
 
         _connection.Open();
+
+        CreateAnswerTable();
     }
 
     public void CreateAnswerTable()
@@ -62,7 +64,8 @@ public class CorrectAnswerRepository
 
         while (reader.Read())
         {
-            answers.Add(reader.GetInt64(2));
+            if (reader?.GetInt64(2) != null)
+                answers.Add(reader.GetInt64(2));
         }
         reader.Close();
 

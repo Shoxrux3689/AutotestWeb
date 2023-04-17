@@ -14,9 +14,11 @@ public class TicketRepository
         _connection = new SqliteConnection("Data source = autotest.db");
 
         _connection.Open();
+
+        CreateTicketTable();
     }
 
-    private void CreateTicketTable()
+    public void CreateTicketTable()
     {
         var command = _connection.CreateCommand();
         command.CommandText = "CREATE TABLE IF NOT EXISTS tickets(" +

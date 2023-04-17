@@ -1,3 +1,4 @@
+using AutotestWeb.Models;
 using AutotestWeb.Models.Services;
 using AutotestWeb.Repositories;
 
@@ -8,8 +9,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<UserRepository>();
 builder.Services.AddTransient<TicketRepository>();
-builder.Services.AddTransient<CorrectAnswerRepository>();
-builder.Services.AddTransient<InCorrectAnswerRepository>();
+builder.Services.AddScoped<CorrectAnswerRepository>();
+builder.Services.AddScoped<InCorrectAnswerRepository>();
 builder.Services.AddTransient<UsersService>();
 builder.Services.AddTransient<TicketsService>();
 builder.Services.AddSingleton<QuestionsService>();

@@ -12,9 +12,11 @@ public class InCorrectAnswerRepository
         _connection = new SqliteConnection("Data source = autotest.db");
 
         _connection.Open();
+
+        CreateAnswerTable();
     }
 
-    private void CreateAnswerTable()
+    public void CreateAnswerTable()
     {
         var command = _connection.CreateCommand();
         command.CommandText = "CREATE TABLE IF NOT EXISTS not_answer_table(user_id TEXT, ticket_id INTEGER, question_id BIGINTEGER)";

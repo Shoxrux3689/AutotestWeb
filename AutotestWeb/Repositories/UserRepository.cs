@@ -12,9 +12,11 @@ public class UserRepository
         _connection = new SqliteConnection("Data source = autotest.db");
         
         _connection.Open();
+
+        CreateUserTable();
     }
 
-    private void CreateUserTable()
+    public void CreateUserTable()
     {
         var command = _connection.CreateCommand();
         command.CommandText = "CREATE TABLE IF NOT EXISTS users(id TEXT UNIQUE, username TEXT NOT NULL, password TEXT, name TEXT, photo_url TEXT, current_ticket_index INTEGER, language TEXT)";

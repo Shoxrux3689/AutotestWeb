@@ -5,9 +5,15 @@ namespace AutotestWeb.Models.Services;
 public class UsersService
 {
     private readonly UserRepository _userRepository;
-    public UsersService(UserRepository userRepository)
+    private CorrectAnswerRepository _correctAnswerRepository;
+    private readonly InCorrectAnswerRepository _inCorrectAnswerRepository;
+
+    public UsersService(UserRepository userRepository, CorrectAnswerRepository correct, InCorrectAnswerRepository inCorrect)
     {
         _userRepository = userRepository;
+        _correctAnswerRepository = correct;
+        _inCorrectAnswerRepository = inCorrect;
+
     }
 
 
@@ -17,6 +23,8 @@ public class UsersService
         {
             var userId = context.Request.Cookies["UserId"];
             var user = _userRepository.GetUserById(userId);
+            user.Results.CorrectCount = _correctAnswerRepository.GetAnswerCount(userId);
+            user.Results.InCorrectCount = _inCorrectAnswerRepository.GetAnswerCount(userId);
 
             return user;
         }
