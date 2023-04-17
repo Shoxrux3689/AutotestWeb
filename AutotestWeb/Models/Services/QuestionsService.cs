@@ -2,10 +2,13 @@
 
 namespace AutotestWeb.Models.Services
 {
-    public static class QuestionsService
+    public class QuestionsService
     {
-        public static List<QuestionModel> Questions;
-        public static List<QuestionModel> ReadQuestion(string language)
+        public QuestionsService() 
+        {
+
+        }
+        public List<QuestionModel> ReadQuestion(string language)
         {
             var question = new List<QuestionModel>();
             if (language == "lotin")
@@ -23,7 +26,7 @@ namespace AutotestWeb.Models.Services
                 var json2 = File.ReadAllText("JsonData/rus.json");
                 question = JsonConvert.DeserializeObject<List<QuestionModel>>(json2);
             }
-            return question;
+            return question!;
         }
     }
 }

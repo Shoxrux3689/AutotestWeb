@@ -1,7 +1,16 @@
+using AutotestWeb.Models.Services;
+using AutotestWeb.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddTransient<UserRepository>();
+builder.Services.AddTransient<TicketRepository>();
+builder.Services.AddTransient<UsersService>();
+builder.Services.AddTransient<TicketsService>();
+builder.Services.AddTransient<QuestionsService>();
 
 var app = builder.Build();
 

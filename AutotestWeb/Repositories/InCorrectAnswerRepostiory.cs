@@ -21,6 +21,13 @@ public class InCorrectAnswerRepository
         command.ExecuteNonQuery();
     }
 
+    public void AddAnswer(TicketResult ticketResult, long questionId)
+    {
+        var command = _connection.CreateCommand();
+        command.CommandText = $"INSERT INTO not_answer_table(user_id, ticket_id, question_id) " +
+            $"VALUES ('{ticketResult.UserId}', {ticketResult.TicketIndex}, {questionId})";
+        command.ExecuteNonQuery();
+    }
     private void DeleteAnswerTable(string userId)
     {
         var command = _connection.CreateCommand();

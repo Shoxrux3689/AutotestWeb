@@ -15,14 +15,22 @@ public class CorrectAnswerRepository
         _connection.Open();
     }
 
-    private void CreateAnswerTable()
+    public void CreateAnswerTable()
     {
         var command = _connection.CreateCommand();
         command.CommandText = "CREATE TABLE IF NOT EXISTS answer_table(user_id TEXT, ticket_id INTEGER, question_id BIGINTEGER)";
         command.ExecuteNonQuery();
     }
 
-    private void DeleteAnswerTable(string userId)
+    public void AddAnswer(TicketResult ticketResult, long questionId)
+    {
+        var command = _connection.CreateCommand();
+        command.CommandText = $"INSERT INTO answer_table(user_id, ticket_id, question_id) " +
+            $"VALUES ('{ticketResult.UserId}', {ticketResult.TicketIndex}, {questionId})";
+        command.ExecuteNonQuery();
+    }
+
+    public void DeleteAnswerTable(string userId)
     {
         var command = _connection.CreateCommand();
         command.CommandText = $"DELETE FROM answer_table WHERE user_id = '{userId}'";

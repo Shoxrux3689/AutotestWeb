@@ -19,53 +19,59 @@ public class TicketRepository
     private void CreateTicketTable()
     {
         var command = _connection.CreateCommand();
-        command.CommandText = "CREATE TABLE IF NOT EXISTS tickets(user_id TEXT NOT NULL, index INTEGER," +
-            " date BIGINT, correct_answers_count INTEGER)";
+        command.CommandText = "CREATE TABLE IF NOT EXISTS tickets(" +
+                                "user_id TEXT NOT NULL, " +
+                                "_index INTEGER, " +
+                                "_date BIGINT, " +
+                                "correct_answers_count INTEGER)";
         command.ExecuteNonQuery();
     }
 
     private void AddTicket(TicketResult ticketResult)
     {
-        //date qosh
         var command = _connection.CreateCommand();
-        command.CommandText = $"INSERT INTO tickets(user_id, index, correct_answers_count) " +
-            $"VALUES('{ticketResult.UserId}', {ticketResult.TicketIndex}, {ticketResult.CorrectAnswersCount})";
+        command.CommandText = $"INSERT INTO tickets(" +
+            $"user_id, _index, " +
+            $"_date, correct_answers_count) " +
+            $"VALUES('{ticketResult.UserId}', {ticketResult.TicketIndex}, {ticketResult.Date.Ticks} {ticketResult.CorrectAnswers.Count})";
         command.ExecuteNonQuery();
     }
 
     private void DeleteTicket(int ticketIndex, string userId)
     {
         var command = _connection.CreateCommand();
-        command.CommandText = "DELETE FROM tickets WHERE index = @i AND user_id = @u";
+        command.CommandText = "DELETE FROM tickets WHERE _index = @i AND user_id = @u";
         command.Parameters.AddWithValue("i", ticketIndex);
         command.Parameters.AddWithValue("u", userId);
         command.Prepare();
         command.ExecuteNonQuery();
     }
 
-    private void UpdateTicket(TicketResult ticket)
+    public void UpdateTicket(TicketResult ticket)
     {
-        //date qosh
         var command = _connection.CreateCommand();
-        command.CommandText = $"UPDATE tickets SET correct_answers_count = {ticket.CorrectAnswersCount}, WHERE user_id = '{ticket.UserId}' AND index = {ticket.TicketIndex}";
+        command.CommandText = $"UPDATE tickets SET correct_answers_count = {ticket.CorrectAnswers.Count}, _date = {ticket.Date.Ticks} WHERE user_id = '{ticket.UserId}' AND index = {ticket.TicketIndex}";
         command.ExecuteNonQuery();
     }
 
     public TicketResult? GetTicket(TicketResult ticket)
     {
         var command = _connection.CreateCommand();
-        command.CommandText = $"SELECT * FROM tickets WHERE user_id = '{ticket.UserId}' AND index = {ticket.TicketIndex}";
+        command.CommandText = $"SELECT * FROM tickets WHERE user_id = '{ticket.UserId}' AND _index = {ticket.TicketIndex}";
         var reader = command.ExecuteReader();
 
         while (reader.Read())
         {
-            return new TicketResult
+            var ticketResult = new TicketResult
             {
                 UserId = reader.GetString(0),
                 TicketIndex = reader.GetInt32(1),
                 Date = DateTime.FromFileTime(reader.GetInt64(2)),
-                CorrectAnswersCount = reader.GetInt32(3)
             };
+
+            reader.Close();
+
+            return ticketResult;
         }
         reader.Close();
 
@@ -87,7 +93,6 @@ public class TicketRepository
                 UserId = reader.GetString(0),
                 TicketIndex = reader.GetInt32(1),
                 Date = DateTime.FromFileTime(reader.GetInt64(2)),
-                CorrectAnswersCount = reader.GetInt32(3)
             });
         }
         reader.Close();

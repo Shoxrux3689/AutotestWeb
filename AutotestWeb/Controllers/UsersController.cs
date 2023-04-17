@@ -7,6 +7,13 @@ namespace AutotestWeb.Controllers;
 
 public class UsersController : Controller
 {
+    private readonly UsersService _usersService;
+    private readonly TicketsService _ticketsService;
+    public UsersController(UsersService users, TicketsService _ti) 
+    {
+        _usersService = users;
+        _ticketsService = _ti;
+    }
 
     [HttpGet]
     public IActionResult SignUp()
@@ -22,59 +29,12 @@ public class UsersController : Controller
         {
             return View(createUser);
         }
-
-        var user = new User()
-        {
-            Id = Guid.NewGuid().ToString(),
-            Name = createUser.Name,
-            Username = createUser.Username,
-            Password = createUser.Password,
-            PhotoPath = SavePhoto(createUser.Photo!),
-            Results = new Result(),
-            CurrentTicketIndex = 0,
-            TicketResults = Lists(),
-        };
-
-
-        UsersService.Users.Add(user);
-
-        HttpContext.Response.Cookies.Append("UserId", user.Id);
+        _usersService.Registration(createUser, HttpContext);
 
         return RedirectToAction("Index", "Home");
     }
 
-    public List<TicketResult> Lists()
-    {
-        var tickets = TicketsService.FormaTickets("lotin");
-        var list = new List<TicketResult>();
-        for (int i = 0; i < tickets.Count; i++)
-        {
-            var lists = new TicketResult();
 
-            for (int j = 0; j < tickets[i].Ticket.Count; j++)
-            {
-                lists.CorrectAnswers.Add(tickets[i].Ticket[j].Id);
-            }
-            lists.TicketIndex = i;
-            list.Add(lists);
-        }
-
-        return list;
-    }
-
-    private string SavePhoto(IFormFile file)
-    {
-        if (!Directory.Exists("wwwroot/UserImages"))
-            Directory.CreateDirectory("wwwroot/UserImages");
-
-        var fileName = Guid.NewGuid().ToString() + ".jpg";
-
-        var ms = new MemoryStream();
-        file.CopyTo(ms);
-        System.IO.File.WriteAllBytes(Path.Combine("wwwroot", "UserImages", fileName), ms.ToArray());
-
-        return "/UserImages/" + fileName;
-    }
 
     [HttpGet]
     public IActionResult SignIn()
@@ -90,35 +50,33 @@ public class UsersController : Controller
             return View(signInUser);
         }
 
-        var user = UsersService.Users.FirstOrDefault(u => u.Username == signInUser.Username && u.Password == signInUser.Password);
+        var isLog = _usersService.GetLogin(HttpContext, signInUser);
 
-        if (user == null)
+        if (!isLog)
         {
-            ModelState.AddModelError("Username", "Username or Password is xato");
+            ModelState.AddModelError("Username", "Username or Password is invalid or injury or kasal");
             return View();
         }
-
-        HttpContext.Response.Cookies.Append("UserId", user.Id);
 
         return RedirectToAction("Profile");
     }
 
     public IActionResult Profile()
     {
-        var user = UsersService.GetCurrentUser(HttpContext);
+        var user = _usersService.GetCurrentUser(HttpContext);
         if (user == null)
         {
             return RedirectToAction("SignIn");
         }
 
-        ViewBag.Tickets = TicketsService.FormaTickets("lotin");
+        ViewBag.Tickets = _ticketsService.FormaTickets("lotin");
 
         return View(user);
     }
 
     public IActionResult ProfileEdit()
     {
-        var user = UsersService.GetCurrentUser(HttpContext);
+        var user = _usersService.GetCurrentUser(HttpContext);
         
         if (user == null)
         {
@@ -132,31 +90,27 @@ public class UsersController : Controller
     {
         if (!ModelState.IsValid)
         {
-            return View("ProfileEdit", UsersService.GetCurrentUser(HttpContext));
+            return View("ProfileEdit", _usersService.GetCurrentUser(HttpContext));
         }
 
-        if (!UsersService.IsLoggedIn(HttpContext))
+        if (!_usersService.IsLoggedIn(HttpContext))
         {
             return RedirectToAction("SignIn");
         }
 
-        UsersService.Change(editUser, HttpContext);
+        _usersService.Change(editUser, HttpContext);
 
         return RedirectToAction("Profile");
     }
 
     public IActionResult ClearStats()
     {
-        if (!UsersService.IsLoggedIn(HttpContext))
+        if (!_usersService.IsLoggedIn(HttpContext))
         {
             return RedirectToAction("SignIn");
         }
-        var user = UsersService.GetCurrentUser(HttpContext);
 
-        user.TicketResults.Clear();
-        user.Results = new Result();
-
-        user.TicketResults = Lists();
+        _usersService.ClearResults(HttpContext);
 
         return View();
     }

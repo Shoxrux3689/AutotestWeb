@@ -1,14 +1,28 @@
-﻿namespace AutotestWeb.Models.Services;
+﻿using AutotestWeb.Repositories;
 
-public static class TicketsService
+namespace AutotestWeb.Models.Services;
+
+public class TicketsService
 {
-    public static List<TicketModel> Tickets { get; set; }
-    public static DateTime? Date { get; set; }
-
-
-    public static List<TicketModel> FormaTickets(string language)
+    private readonly TicketRepository _ticketRepository;
+    private readonly QuestionsService _questionsService;
+    private readonly CorrectAnswerRepository _correctAnswerRepository;
+    private readonly InCorrectAnswerRepository _inCorrectAnswerRepository;
+    public TicketsService(
+        TicketRepository ticketRepository,
+        QuestionsService questions,
+        CorrectAnswerRepository canswer, 
+        InCorrectAnswerRepository icanswer) 
     {
-        var questions = QuestionsService.ReadQuestion(language);
+        _ticketRepository = ticketRepository;
+        _questionsService = questions;
+        _correctAnswerRepository = canswer;
+        _inCorrectAnswerRepository = icanswer;
+    }
+
+    public List<TicketModel> FormaTickets(string language)
+    {
+        var questions = _questionsService.ReadQuestion(language);
 
         var tickets = new List<TicketModel>();
 
@@ -24,4 +38,25 @@ public static class TicketsService
 
         return tickets;
     }
+
+    public void Update(TicketResult ticketResult, long questionId, bool isAnswer)
+    {
+        
+        if (isAnswer)
+        {
+            if (!ticketResult.CorrectAnswers.Contains(questionId))
+            {
+                ticketResult.CorrectAnswers.Add(questionId);
+                _correctAnswerRepository.AddAnswer(ticketResult, questionId);
+            }
+        }
+        else
+        {
+            _inCorrectAnswerRepository.AddAnswer(ticketResult, questionId);
+        }
+        
+        _ticketRepository.UpdateTicket(ticketResult);
+    }
 }
+
+

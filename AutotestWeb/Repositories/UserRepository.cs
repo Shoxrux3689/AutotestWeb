@@ -21,7 +21,7 @@ public class UserRepository
         command.ExecuteNonQuery();
     }
 
-    private void AddUser(User user)
+    public void AddUser(User user)
     {
         var command = _connection.CreateCommand();
         command.CommandText = $"INSERT INTO users(id, username, password, name, photo_url, current_ticket_index, language) " +
@@ -48,7 +48,7 @@ public class UserRepository
 
         while (reader.Read())
         {
-            return new User
+            var user = new User
             {
                 Id = (string)reader["id"],
                 Username = reader.GetString(1),
@@ -58,10 +58,40 @@ public class UserRepository
                 CurrentTicketIndex = reader.GetInt32(5),
                 Language = reader.GetString(6),
             };
+            
+            reader.Close();
+
+            return user;
         }
         reader.Close();
 
         return null;
+    }
+
+    public List<User> GetUsers()
+    {
+        var users = new List<User>();
+        var command = _connection.CreateCommand();
+        command.CommandText = $"SELECT * FROM users";
+        var reader = command.ExecuteReader();
+
+        while (reader.Read())
+        {
+            users.Add(new User 
+            { 
+                Id = (string)reader["id"], 
+                Username = reader.GetString(1), 
+                Password = reader.GetString(2),
+                Name = reader.GetString(3),
+                PhotoPath = reader.GetString(4),
+                CurrentTicketIndex = reader.GetInt32(5),
+                Language = reader.GetString(6),
+            });
+        }
+
+        reader.Close();
+
+        return users;
     }
 
     private void UpdateUser(User user)
