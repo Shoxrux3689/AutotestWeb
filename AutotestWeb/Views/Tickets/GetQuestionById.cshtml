@@ -15,7 +15,7 @@
 
         for (int i = 0; i < (int)question.Choices.Count; i++)
         {
-            if (Model.TicketResults[Model.CurrentTicketIndex].CorrectAnswers.Contains(question.Id))
+            if (!Model.TicketResults[Model.CurrentTicketIndex].CorrectAnswers.Contains(question.Id))
             {
                 <a asp-controller="Tickets" asp-action="GetQuestionById" asp-route-Id="@question.Id" asp-route-choiceId="@i">
                     <h3>@(i + 1) @question.Choices[i].Text </h3>

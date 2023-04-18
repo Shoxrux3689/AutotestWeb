@@ -5,7 +5,7 @@ namespace AutotestWeb.Models.Services;
 public class UsersService
 {
     private readonly UserRepository _userRepository;
-    private CorrectAnswerRepository _correctAnswerRepository;
+    private readonly CorrectAnswerRepository _correctAnswerRepository;
     private readonly InCorrectAnswerRepository _inCorrectAnswerRepository;
 
     public UsersService(UserRepository userRepository, CorrectAnswerRepository correct, InCorrectAnswerRepository inCorrect)
@@ -13,7 +13,6 @@ public class UsersService
         _userRepository = userRepository;
         _correctAnswerRepository = correct;
         _inCorrectAnswerRepository = inCorrect;
-
     }
 
 
