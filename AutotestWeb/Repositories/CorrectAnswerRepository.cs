@@ -1,5 +1,6 @@
 ﻿using AutotestWeb.Models;
 using Microsoft.Data.Sqlite;
+using System.Reflection.Metadata.Ecma335;
 using System.Reflection.PortableExecutable;
 
 namespace AutotestWeb.Repositories;
@@ -28,7 +29,10 @@ public class CorrectAnswerRepository
     {
         var command = _connection.CreateCommand();
         command.CommandText = $"INSERT INTO answer_table(user_id, ticket_id, question_id) " +
-            $"VALUES ('{ticketResult.UserId}', {ticketResult.TicketIndex}, {questionId})";
+            $"VALUES ('" +
+            $"{ticketResult.UserId}', " +
+            $"{ticketResult.TicketIndex}, " +
+            $"{questionId})";
         command.ExecuteNonQuery();
     }
 
@@ -59,6 +63,7 @@ public class CorrectAnswerRepository
     {
         var command = _connection.CreateCommand();
         command.CommandText = $"SELECT * FROM answer_table WHERE user_id = '{userId}'";
+
         var reader = command.ExecuteReader();
         var answers = new List<long>();
 
@@ -67,6 +72,7 @@ public class CorrectAnswerRepository
             if (reader?.GetInt64(2) != null)
                 answers.Add(reader.GetInt64(2));
         }
+
         reader.Close();
 
         return answers.Count;

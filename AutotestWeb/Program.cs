@@ -9,10 +9,13 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<UserRepository>();
 builder.Services.AddTransient<TicketRepository>();
+
 builder.Services.AddScoped<CorrectAnswerRepository>();
 builder.Services.AddScoped<InCorrectAnswerRepository>();
+
 builder.Services.AddTransient<UsersService>();
 builder.Services.AddTransient<TicketsService>();
+
 builder.Services.AddSingleton<QuestionsService>();
 
 var app = builder.Build();

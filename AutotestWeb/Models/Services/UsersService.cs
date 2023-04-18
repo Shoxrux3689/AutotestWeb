@@ -22,9 +22,12 @@ public class UsersService
         if (IsLoggedIn(context))
         {
             var userId = context.Request.Cookies["UserId"];
+
             var user = _userRepository.GetUserById(userId);
+            user!.Results = new Result();
             user.Results.CorrectCount = _correctAnswerRepository.GetAnswerCount(userId);
             user.Results.InCorrectCount = _inCorrectAnswerRepository.GetAnswerCount(userId);
+            user.TicketResults = Lists(user.Id);
 
             return user;
         }
