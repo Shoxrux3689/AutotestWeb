@@ -29,7 +29,7 @@ public class TicketRepository
         command.ExecuteNonQuery();
     }
 
-    private void AddTicket(TicketResult ticketResult)
+    public void AddTicket(TicketResult ticketResult)
     {
         var command = _connection.CreateCommand();
         command.CommandText = $"INSERT INTO tickets(" +
@@ -39,11 +39,10 @@ public class TicketRepository
         command.ExecuteNonQuery();
     }
 
-    private void DeleteTicket(int ticketIndex, string userId)
+    public void DeleteTicket(string userId)
     {
         var command = _connection.CreateCommand();
-        command.CommandText = "DELETE FROM tickets WHERE _index = @i AND user_id = @u";
-        command.Parameters.AddWithValue("i", ticketIndex);
+        command.CommandText = "DELETE FROM tickets WHERE user_id = @u";
         command.Parameters.AddWithValue("u", userId);
         command.Prepare();
         command.ExecuteNonQuery();
@@ -52,7 +51,7 @@ public class TicketRepository
     public void UpdateTicket(TicketResult ticket)
     {
         var command = _connection.CreateCommand();
-        command.CommandText = $"UPDATE tickets SET correct_answers_count = {ticket.CorrectAnswers.Count}, _date = {ticket.Date.Ticks} WHERE user_id = '{ticket.UserId}' AND index = {ticket.TicketIndex}";
+        command.CommandText = $"UPDATE tickets SET correct_answers_count = {ticket.CorrectAnswers.Count}, _date = {ticket.Date.Ticks} WHERE user_id = '{ticket.UserId}' AND _index = {ticket.TicketIndex}";
         command.ExecuteNonQuery();
     }
 

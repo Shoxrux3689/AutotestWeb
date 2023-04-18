@@ -30,7 +30,7 @@ public class InCorrectAnswerRepository
             $"VALUES ('{ticketResult.UserId}', {ticketResult.TicketIndex}, {questionId})";
         command.ExecuteNonQuery();
     }
-    private void DeleteAnswerTable(string userId)
+    public void DeleteAnswerTable(string userId)
     {
         var command = _connection.CreateCommand();
         command.CommandText = $"DELETE FROM not_answer_table WHERE user_id = '{userId}'";

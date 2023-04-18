@@ -5,14 +5,19 @@ namespace AutotestWeb.Models.Services;
 public class UsersService
 {
     private readonly UserRepository _userRepository;
+    private readonly TicketRepository _ticketRepository;
     private readonly CorrectAnswerRepository _correctAnswerRepository;
     private readonly InCorrectAnswerRepository _inCorrectAnswerRepository;
 
-    public UsersService(UserRepository userRepository, CorrectAnswerRepository correct, InCorrectAnswerRepository inCorrect)
+    public UsersService(UserRepository userRepository,
+        CorrectAnswerRepository correct,
+        InCorrectAnswerRepository inCorrect,
+        TicketRepository ticketRepository)
     {
         _userRepository = userRepository;
         _correctAnswerRepository = correct;
         _inCorrectAnswerRepository = inCorrect;
+        _ticketRepository = ticketRepository;
     }
 
 
@@ -117,6 +122,7 @@ public class UsersService
                 TicketIndex = i,
                 UserId = id,
             };
+            lists.CorrectAnswers = _correctAnswerRepository.GetTicketAnswers(lists);
 
             list.Add(lists);
         }
@@ -127,6 +133,9 @@ public class UsersService
     public void ClearResults(HttpContext httpContext)
     {
         var user = GetCurrentUser(httpContext);
+        _ticketRepository.DeleteTicket(user.Id);
+        _correctAnswerRepository.DeleteAnswerTable(user.Id);
+        _inCorrectAnswerRepository.DeleteAnswerTable(user.Id);
 
         user!.TicketResults.Clear();
         user.Results = new Result();

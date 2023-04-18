@@ -92,7 +92,6 @@ public class TicketsController : Controller
                 user.TicketResults[ticketIndex].Date = DateTime.Now;
                 
                 _ticketsService.Update(user.TicketResults[ticketIndex], question.Id, answer);
-                    
             }
         }
 

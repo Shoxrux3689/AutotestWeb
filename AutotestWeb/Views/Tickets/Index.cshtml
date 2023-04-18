@@ -9,7 +9,7 @@
             <div class="card">
                 <img src="/TicketImage/Ticket.png" style="width:100%">
                 <h1>Ticket: @(i+1)</h1>
-                <h3>@(10 - Model.TicketResults[i].CorrectAnswers!.Count) / 10</h3>
+                <h3>@(Model.TicketResults[i].CorrectAnswers!.Count) / 10</h3>
                 <h4 class="title">@Model.TicketResults[i].Date</h4>
                 <button type="submit">Start</button>
             </div>
