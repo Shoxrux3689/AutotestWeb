@@ -89,7 +89,7 @@ public class TicketsController : Controller
 
                 ViewBag.Answer = answer;
                 ViewBag.ChoiceId = choiceId;
-                user.TicketResults[ticketIndex].Date = DateTime.Now;
+                user.TicketResults[ticketIndex].Date = DateTime.Now.ToString();
                 
                 _ticketsService.Update(user.TicketResults[ticketIndex], question.Id, answer);
             }

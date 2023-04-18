@@ -31,7 +31,7 @@ public class UsersService
             user!.Results = new Result();
             user.Results.CorrectCount = _correctAnswerRepository.GetAnswerCount(userId);
             user.Results.InCorrectCount = _inCorrectAnswerRepository.GetAnswerCount(userId);
-            user.TicketResults = Lists(user.Id);
+            user.TicketResults = GetTicketResults(user.Id);
 
             return user;
         }
@@ -112,7 +112,26 @@ public class UsersService
         return "/UserImages/" + fileName;
     }
 
+
+
     public List<TicketResult> Lists(string id)
+    {
+        for (int i = 1; i <= 70; i++)
+        {
+            var lists = new TicketResult()
+            {
+                TicketIndex = i,
+                UserId = id,
+                Date = default,
+            };
+            lists.CorrectAnswers = _correctAnswerRepository.GetTicketAnswers(lists);
+            _ticketRepository.AddTicket(lists);
+        }
+
+        return _ticketRepository.GetTicketList(id);
+    }
+
+    public List<TicketResult> GetTicketResults(string userId)
     {
         var list = new List<TicketResult>();
         for (int i = 1; i <= 70; i++)
@@ -120,13 +139,13 @@ public class UsersService
             var lists = new TicketResult()
             {
                 TicketIndex = i,
-                UserId = id,
+                UserId = userId,
             };
-            lists.CorrectAnswers = _correctAnswerRepository.GetTicketAnswers(lists);
+            var ticket = _ticketRepository.GetTicket(lists);
+            ticket.CorrectAnswers = _correctAnswerRepository.GetTicketAnswers(lists);
 
-            list.Add(lists);
+            list.Add(ticket);
         }
-
         return list;
     }
 

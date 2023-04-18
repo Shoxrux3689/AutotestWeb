@@ -24,7 +24,7 @@ public class TicketRepository
         command.CommandText = "CREATE TABLE IF NOT EXISTS tickets(" +
                                 "user_id TEXT NOT NULL, " +
                                 "_index INTEGER, " +
-                                "_date BIGINT, " +
+                                "_date TEXT," +
                                 "correct_answers_count INTEGER)";
         command.ExecuteNonQuery();
     }
@@ -35,7 +35,7 @@ public class TicketRepository
         command.CommandText = $"INSERT INTO tickets(" +
             $"user_id, _index, " +
             $"_date, correct_answers_count) " +
-            $"VALUES('{ticketResult.UserId}', {ticketResult.TicketIndex}, {ticketResult.Date.Ticks} {ticketResult.CorrectAnswers.Count})";
+            $"VALUES('{ticketResult.UserId}', {ticketResult.TicketIndex}, '{ticketResult.Date}', {ticketResult.CorrectAnswers.Count})";
         command.ExecuteNonQuery();
     }
 
@@ -51,14 +51,14 @@ public class TicketRepository
     public void UpdateTicket(TicketResult ticket)
     {
         var command = _connection.CreateCommand();
-        command.CommandText = $"UPDATE tickets SET correct_answers_count = {ticket.CorrectAnswers.Count}, _date = {ticket.Date.Ticks} WHERE user_id = '{ticket.UserId}' AND _index = {ticket.TicketIndex}";
+        command.CommandText = $"UPDATE tickets SET correct_answers_count = {ticket.CorrectAnswers.Count}, _date = '{ticket.Date}' WHERE user_id = '{ticket.UserId}' AND _index = {ticket.TicketIndex}";
         command.ExecuteNonQuery();
     }
 
     public TicketResult? GetTicket(TicketResult ticket)
     {
         var command = _connection.CreateCommand();
-        command.CommandText = $"SELECT * FROM tickets WHERE user_id = '{ticket.UserId}' AND _index = {ticket.TicketIndex}";
+        command.CommandText = $"SELECT user_id, _index, _date FROM tickets WHERE user_id = '{ticket.UserId}' AND _index = {ticket.TicketIndex}";
         var reader = command.ExecuteReader();
 
         while (reader.Read())
@@ -67,7 +67,7 @@ public class TicketRepository
             {
                 UserId = reader.GetString(0),
                 TicketIndex = reader.GetInt32(1),
-                Date = DateTime.FromFileTime(reader.GetInt64(2)),
+                Date = reader.GetString(2),
             };
 
             reader.Close();
@@ -79,10 +79,10 @@ public class TicketRepository
         return null;
     }
 
-    public List<TicketResult> GetTicketList(TicketResult ticket)
+    public List<TicketResult> GetTicketList(string userId)
     {
         var command = _connection.CreateCommand();
-        command.CommandText = $"SELECT * FROM tickets WHERE user_id = '{ticket.UserId}'";
+        command.CommandText = $"SELECT * FROM tickets WHERE user_id = '{userId}'";
         var reader = command.ExecuteReader();
 
         var tickets = new List<TicketResult>();
@@ -93,7 +93,7 @@ public class TicketRepository
             {
                 UserId = reader.GetString(0),
                 TicketIndex = reader.GetInt32(1),
-                Date = DateTime.FromFileTime(reader.GetInt64(2)),
+                Date = reader.GetString(2),
             });
         }
         reader.Close();
