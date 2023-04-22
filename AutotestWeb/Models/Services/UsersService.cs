@@ -54,7 +54,7 @@ public class UsersService
     {
         var user = _userRepository.GetUserByUsername(signInUser.Username);
 
-        if (user != null || user.Password != signInUser.Password)
+        if (user == null || user.Password != signInUser.Password)
             return false;
 
         context.Response.Cookies.Append("UserId", user.Id);

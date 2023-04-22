@@ -37,7 +37,7 @@ public class UserRepository
     }
     public User? GetUserByUsername(string username)
     {
-        return GetUser("id", username);
+        return GetUser("username", username);
     }
 
     public User? GetUser(string paramName, string paramValue)
