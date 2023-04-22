@@ -16,3 +16,51 @@
 </form>
 
 
+
+<html>
+<head>
+	<title>Creative Colorlib SignUp Form</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+	<!-- Custom Theme files -->
+	<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+	<!-- //Custom Theme files -->
+	<!-- web font -->
+	<link href="//fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i" rel="stylesheet">
+	<!-- //web font -->
+</head>
+<body>
+	<!-- main -->
+	<div class="main-w3layouts wrapper">
+		<h1>Sign In</h1>
+		<div class="main-agileinfo">
+			<div class="agileits-top">
+				<form asp-action="SignIn" method="post" enctype="multipart/form-data">
+					<input class="text w3lpass" type="text" name="Username" asp-for="Username" placeholder="Username" required="">
+					<span asp-validation-for="Username"></span>
+
+					
+					<input class="text w3lpass" type="password" name="Password" asp-for="Password" placeholder="Password" required="">
+					<span asp-validation-for="Password"></span>
+
+					<div class="wthree-text">
+						<label class="anim">
+							<input type="checkbox" class="checkbox" required="">
+							<span>Parolni eslab qolish</span>
+						</label>
+						<div class="clear"> </div>
+					</div>
+					<input type="submit" value="SIGNIN">
+
+					<a class="link-info" asp-controller="Users" asp-action="SignUp">Sign Up</a>
+				</form>
+			</div>
+		</div>
+
+	</div>
+	<!-- //main -->
+</body>
+</html>
+
+
