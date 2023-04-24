@@ -2,14 +2,35 @@
 @{
     if (ViewBag.isSuccess)
     {
-        QuestionModel question = ViewBag.Question;
 
-        if (question.Media.Exist)
+        QuestionModel question = ViewBag.Question;
+        <div >
+        @for (int i = 0; i < 10; i++)
+        {
+            var tagClass = "btn btn-light";
+            if (Model.TicketResults[Model.CurrentTicketIndex].CorrectAnswers.Contains((Model.CurrentTicketIndex * 10 + 1) + i))
+            {
+                    tagClass = "btn btn-primary";
+            }
+
+            if (Model.CurrentTicketIndex * 10 + 1 + i == question.Id)
+            {
+                    tagClass = "btn btn-secondary";
+            }
+            <a class="@tagClass" asp-action="GetQuestionById" asp-route-id="@((question.Id - 1) / 10 * 10 + i + 1)">@(i + 1)</a>
+        }
+        </div>
+
+        
+        <div class="center">
+        @if (question.Media.Exist)
         {
             var imgLink = $"/Autotest/{question.Media.Name}.png";
 
             <img src="@imgLink" />
         }
+        </div>
+       
 
         <h1>@question.Id. @question.Question</h1>
 
@@ -53,20 +74,7 @@
             <p style="color: orangered">@question.Description</p>
         }
 
-        for (int i = 0; i < 10; i++)
-        {
-            var tagClass = "btn btn-light";
-            if (Model.TicketResults[Model.CurrentTicketIndex].CorrectAnswers.Contains((Model.CurrentTicketIndex * 10 + 1) + i))
-            {
-                tagClass = "btn btn-primary";
-            }
-
-            if (Model.CurrentTicketIndex * 10 + 1 + i == question.Id)
-            {
-                tagClass = "btn btn-secondary";
-            }
-            <a class="@tagClass" asp-action="GetQuestionById" asp-route-id="@((question.Id - 1) / 10 * 10 + i + 1)">@(i + 1)</a>
-        }
+  
     }
     else
     {

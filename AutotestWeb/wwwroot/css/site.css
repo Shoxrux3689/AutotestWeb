@@ -859,4 +859,35 @@ input.checkbox {
     .main-w3layouts {
         padding: 1em 0 0;
     }
+
+    .number {
+        width: 80px;
+        justify-content: center;
+        align-items: center;
+        transition: 0.5s;
+        background-color: blue;
+        border-radius: 11px;
+        color: white;
+    }
+    .number-2 {
+        width: 80px;
+        justify-content: center;
+        align-items: center;
+        transition: 0.5s;
+        border-radius: 11px;
+        color: white;
+    }
+
+        .number-2:hover {
+            color: black;
+            transform: translateY(-5px);
+        }
+
+    .number:hover {
+        background-color: gold;
+        color: black;
+        transform: translateY(-5px);
+    }
 }
+
+
